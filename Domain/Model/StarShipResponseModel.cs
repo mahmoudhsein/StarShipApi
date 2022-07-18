@@ -36,7 +36,12 @@ namespace Domain.Model
         public string edited { get; set; }  
 
     }
-    public class BasicStarShipResponseModel
+    public class BasicStarShipResponse
+    {
+        public List<BasicStarShip> BasicStarShips { get; set; }
+        public int TotalRecords { get; set; }
+    }
+    public class BasicStarShip
     {
         public string Name { get; set; }
         public int Stops { get; set; }
@@ -56,5 +61,8 @@ namespace Domain.Model
 
         [JsonProperty("message")]
         public string Message { get; set; }
+        [JsonProperty("total_records")]
+        public int TotalRecords { get; set; }
+
     }
 }

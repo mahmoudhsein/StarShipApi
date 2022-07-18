@@ -9,7 +9,7 @@ namespace Domain.Services
 {
     public interface IStartShipService
     {
-        Task<IEnumerable<BasicStarShipModel>> GetStarShipInfo(int? page = null, int? limit = null);
+        Task<StarShipListingsGetResponseModel> GetStarShipInfo(int? page = null, int? limit = null);
         Task<StarShipModel> GetStarShipInfoById(string id);
     }
 }

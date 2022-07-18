@@ -28,20 +28,23 @@ namespace StarShip.Controllers
         /// <param name="paginationReqDTO"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<BasicStarShipResponseModel>> GetAsync([FromQuery] int distance,[FromQuery] PaginationReqDTO paginationReqDTO)
+        public async Task<BasicStarShipResponse> GetAsync([FromQuery] int distance,[FromQuery] PaginationReqDTO paginationReqDTO)
         {
-            List<BasicStarShipResponseModel> response= new List<BasicStarShipResponseModel>();
+            List<BasicStarShip> response= new List<BasicStarShip>();
             var starShips= await _startShipService.GetStarShipInfo(paginationReqDTO.Page,paginationReqDTO.Limit);
-            foreach(var shipment in starShips)
+            foreach(var shipment in starShips.Results)
             {
                 var starShipInfo = await _startShipService.GetStarShipInfoById(shipment.Uid);
                 if(starShipInfo != null)
                 {
                    var stops=Utilities.CalculateStops(starShipInfo, distance);
-                    response.Add(new BasicStarShipResponseModel { Name = shipment.Name, Stops = stops });
+                    response.Add(new BasicStarShip { Name = shipment.Name, Stops = stops });
                 }
             }
-            return response;
+            BasicStarShipResponse basicStarShipResponse=new BasicStarShipResponse();
+            basicStarShipResponse.TotalRecords = starShips.TotalRecords;
+            basicStarShipResponse.BasicStarShips = response;
+            return basicStarShipResponse;
         }
         /// <summary>
         /// Get StarShip By Id.

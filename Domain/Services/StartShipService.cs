@@ -26,7 +26,7 @@ namespace Domain.Services
            _configuration=configuration;
             _httpClientAdapter = httpClientAdapter;
         }
-        public async Task<IEnumerable<BasicStarShipModel>> GetStarShipInfo(int? page , int? limit)
+        public async Task<StarShipListingsGetResponseModel> GetStarShipInfo(int? page , int? limit)
         {
             var headers = new Dictionary<string, string>{};
             string endpoint = ServiceUrl + "starships";
@@ -34,7 +34,7 @@ namespace Domain.Services
             if (response.Code == (int)HttpStatusCode.OK)
             {
                 var info = JsonConvert.DeserializeObject<StarShipListingsGetResponseModel>(response.Message);
-                return info.Results;
+                return info;
             }
             else
             {
